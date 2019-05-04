@@ -6,8 +6,8 @@ import { BrowserRouter } from 'react-router-dom'
 import configureStore from './reducers/store'
 import App from './components/App'
 
+const store = configureStore()
 const rootElement = document.getElementById('root')
-const store = configureStore(window.__INITIAL_STATE__)
 
 ReactDOM.render(
   <Provider store={store}>
