@@ -25,6 +25,9 @@
     "arrow-body-style": "off",
     "semi": "off",
     "no-underscore-dangle": "off",
-    "implicit-arrow-linebreak": "off"
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "import/prefer-default-export": "off",
+    "react/prop-types": "off"
   }
 }
