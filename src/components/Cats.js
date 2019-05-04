@@ -15,6 +15,7 @@ const Cats = (props) => {
       props.getCats(data)
     }
 
+    // 여기서 이미 SSR이 돼있는지 체크 후 fetch를 할지 결정
     fetchData()
   }, [])
 
@@ -58,4 +59,7 @@ const mapDispatchToProps = (dispatch) => ({
   getCats: (cats) => dispatch(getCats(cats)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cats)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Cats)
