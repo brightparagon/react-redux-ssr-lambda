@@ -1,5 +1,13 @@
-node_modules/
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+handler.js
+
 *.log
-*.lock
-.env
+*.map
 build/
+.env
+*.lock

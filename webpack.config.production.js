@@ -1,19 +1,19 @@
 const webpack = require('webpack')
 const path = require('path')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const eslintFormatter = require('react-dev-utils/eslintFormatter')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const autoprefixer = require('autoprefixer')
 
 module.exports = {
-  mode: 'development',
+  bail: true,
 
-  devtool: 'cheap-module-source-map',
+  mode: 'production',
+
+  devtool: 'hidden-source-map',
 
   entry: [
     'babel-polyfill',
-    'webpack-dev-server/client?http://0.0.0.0:8000',
-    'webpack/hot/only-dev-server',
     path.resolve(__dirname, 'src/index.js'),
   ],
 
@@ -21,25 +21,12 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     pathinfo: true,
     filename: 'js/bundle.js',
+    publicPath: '/static/',
   },
 
   module: {
     strictExportPresence: true,
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
-            },
-            loader: require.resolve('eslint-loader'),
-          },
-        ],
-        include: path.resolve(__dirname, 'src'),
-      },
       {
         oneOf: [
           {
@@ -107,65 +94,41 @@ module.exports = {
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
+
     new HtmlWebpackPlugin({
       title: 'React Redux SSR Lambda Test',
       inject: 'body',
       template: path.resolve(__dirname, 'public/index.html'),
-    }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
+      minify: {
+        removeComments: false,
+        collapseWhitespace: false,
+        removeRedundantAttributes: false,
+        useShortDoctype: true,
+        removeEmptyAttributes: false,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
       },
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new CaseSensitivePathsPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
+
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+
+    new webpack.optimize.ModuleConcatenationPlugin(),
+
+    new UglifyJSPlugin({
+      sourceMap: true,
+      parallel: true,
+      uglifyOptions: {
+        ie8: false,
+        mangle: true,
+        compress: true,
+        warnings: false,
+      },
     }),
   ],
-
-  node: {
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty',
-  },
-
-  devServer: {
-    host: '0.0.0.0',
-    port: 8000,
-    // proxy: {
-    //   '/api/*': 'http://localhost:3000',
-    // },
-    compress: true,
-    historyApiFallback: true,
-    inline: true,
-    overlay: true,
-    hot: true,
-    filename: 'js/bundle.js',
-    stats: {
-      assets: true,
-      assetsSort: 'field',
-      builtAt: true,
-      cached: true,
-      cachedAssets: false,
-      children: false,
-      chunks: false,
-      colors: true,
-      env: true,
-      errors: true,
-      hash: true,
-      performance: true,
-      publicPath: false,
-      version: true,
-      timings: true,
-      warnings: false,
-    },
-  },
-
-  performance: {
-    hints: false,
-  },
 }

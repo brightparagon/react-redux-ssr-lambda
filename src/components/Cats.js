@@ -1,29 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { getCats } from '../actions/cat'
+import { fetchCats, getCatsSuccess, getCatsFail } from '../actions/cat'
 
 const Cats = (props) => {
-  const [cats, setCats] = useState([])
-
   useEffect(() => {
-    const url = 'https://jsonplaceholder.typicode.com/todos'
-    const fetchData = async () => {
-      const response = await fetch(url)
-      const data = await response.json()
-      props.getCats(data)
-    }
-
     // 여기서 이미 SSR이 돼있는지 체크 후 fetch를 할지 결정
-    fetchData()
+    if (props.getAllCats.status !== 'SUCCESS') {
+      fetchCats()
+        .then((fetchedCats) => props.getCatsSuccess(fetchedCats))
+        .catch((error) => props.getCatsFail(error))
+    }
   }, [])
 
-  useEffect(() => {
-    if (props.getAllCats.status === 'SUCCESS') {
-      setCats(props.getAllCats.cats)
-    }
-  })
+  const { getAllCats: { cats } } = props
 
   return (
     <div>
@@ -40,6 +31,7 @@ const Cats = (props) => {
       </ul>
       <br />
       <br />
+      <h2>Cat List</h2>
       <ul>
         {cats.map((cat) => (
           <li key={cat.id}>
@@ -51,12 +43,13 @@ const Cats = (props) => {
   )
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   getAllCats: state.cat.getAllCats,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getCats: (cats) => dispatch(getCats(cats)),
+  getCatsSuccess: (cats) => dispatch(getCatsSuccess(cats)),
+  getCatsFail: (error) => dispatch(getCatsFail(error)),
 })
 
 export default connect(

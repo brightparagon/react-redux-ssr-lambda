@@ -8,6 +8,7 @@ const initialState = {
 
 export default function cat(state = initialState, action) {
   switch (action.type) {
+    // Not used
     case 'GET_ALL_CATS':
       return {
         ...state,

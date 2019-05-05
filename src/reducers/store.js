@@ -1,9 +1,9 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
-import { createBrowserHistory } from 'history'
+import { createMemoryHistory } from 'history'
 import cat from './cat'
 
-const history = createBrowserHistory()
+const history = createMemoryHistory()
 const middlewares = [routerMiddleware(history)]
 const reducers = combineReducers({
   cat,

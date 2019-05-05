@@ -1,0 +1,30 @@
+service: react-redux-ssr-lambda
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  profile: default
+
+functions:
+  app:
+    handler: handler.ssr
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+      - cors: true
+
+plugins:
+  - serverless-offline
+
+# you can add CloudFormation resource templates here
+#resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: my-new-bucket
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"

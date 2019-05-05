@@ -1,19 +1,20 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { hydrate } from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import configureStore from './reducers/store'
 import App from './components/App'
 
-const store = configureStore()
-const rootElement = document.getElementById('root')
+const preloadedState = window.__PRELOADED_STATE__
+const store = configureStore(preloadedState)
+delete window.__PRELOADED_STATE__
 
-ReactDOM.render(
+hydrate(
   <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>,
-  rootElement,
+  document.getElementById('root'),
 )
