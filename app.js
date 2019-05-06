@@ -21,11 +21,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/static', express.static('./build'))
 
 app.get('/', (req, res) => {
+  const context = {}
   const store = configureStore()
   const preloadedState = JSON.stringify(store.getState()).replace(/</g, '\\u003c')
   const renderedReactHtml = renderToString(
     <Provider store={store}>
-      <StaticRouter location={req.url}>
+      <StaticRouter location={req.url} context={context}>
         <App />
       </StaticRouter>
     </Provider>,
@@ -54,11 +55,12 @@ app.get('/cats', async (req, res) => {
       },
     },
   }
+  const context = {}
   const store = configureStore(initialCatReducer)
   const preloadedState = JSON.stringify(store.getState()).replace(/</g, '\\u003c')
   const renderedReactHtml = renderToString(
     <Provider store={store}>
-      <StaticRouter location={req.url}>
+      <StaticRouter location={req.url} context={context}>
         <App />
       </StaticRouter>
     </Provider>,

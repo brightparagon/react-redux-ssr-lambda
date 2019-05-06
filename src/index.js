@@ -10,9 +10,11 @@ const preloadedState = window.__PRELOADED_STATE__
 const store = configureStore(preloadedState)
 delete window.__PRELOADED_STATE__
 
+// basename: serverless aws lambda deploy stage -> manage as an environment variable
+
 hydrate(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename="/dev">
       <App />
     </BrowserRouter>
   </Provider>,

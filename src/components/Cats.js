@@ -6,7 +6,7 @@ import { fetchCats, getCatsSuccess, getCatsFail } from '../actions/cat'
 
 const Cats = (props) => {
   useEffect(() => {
-    // 여기서 이미 SSR이 돼있는지 체크 후 fetch를 할지 결정
+    // decide whether to fetch data or not after checking if SSR is done
     if (props.getAllCats.status !== 'SUCCESS') {
       fetchCats()
         .then((fetchedCats) => props.getCatsSuccess(fetchedCats))

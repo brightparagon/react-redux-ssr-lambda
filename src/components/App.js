@@ -3,12 +3,10 @@ import { Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
 import Cats from './Cats'
+import NotFound from './NotFound'
 
 class App extends React.Component {
   state = {}
-
-  componentDidMount() {
-  }
 
   render() {
     return (
@@ -19,6 +17,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/cats" exact component={Cats} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     )

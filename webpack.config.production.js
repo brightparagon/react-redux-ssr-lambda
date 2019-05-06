@@ -21,7 +21,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     pathinfo: true,
     filename: 'js/bundle.js',
-    publicPath: '/static/',
+    publicPath: '/dev/static/',
   },
 
   module: {
