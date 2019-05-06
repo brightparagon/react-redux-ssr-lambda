@@ -5,23 +5,17 @@ import Home from './Home'
 import Cats from './Cats'
 import NotFound from './NotFound'
 
-class App extends React.Component {
-  state = {}
-
-  render() {
-    return (
-      <div className="App">
-        This is App component!
-        <br />
-        <br />
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/cats" exact component={Cats} />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    )
-  }
-}
+const App = (props) => (
+  <div className="App">
+    This is App component!
+    <br />
+    <br />
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/cats" exact component={Cats} />
+      <Route component={NotFound} />
+    </Switch>
+  </div>
+)
 
 export default App
